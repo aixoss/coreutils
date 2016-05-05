@@ -4658,8 +4658,8 @@ src_libstdbuf_so_LDADD = $(LIBINTL)
 # Note libstdbuf is only compiled if GCC is available
 # (as per the check in configure.ac), so these flags should be available.
 # libtool is probably required to relax this dependency.
-src_libstdbuf_so_LDFLAGS = -shared
-src_libstdbuf_so_CFLAGS = -fPIC $(AM_CFLAGS)
+src_libstdbuf_so_LDFLAGS = -qmkshrobj
+src_libstdbuf_so_CFLAGS = $(AM_CFLAGS)
 # Single binary dependencies
 @SINGLE_BINARY_TRUE@src_coreutils_CFLAGS = -DSINGLE_BINARY $(AM_CFLAGS)
 @SINGLE_BINARY_TRUE@src_coreutils_DEPENDENCIES = $(LDADD) $(single_binary_deps)
@@ -11781,6 +11781,7 @@ installdirs-am:
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
+	touch $(srcdir)/doc/coreutils.info
 	$(MAKE) $(AM_MAKEFLAGS) install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive

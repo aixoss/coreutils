@@ -49,6 +49,10 @@
 # include <mach-o/arch.h>
 #endif
 
+#ifdef _AIX
+#include <sys/systemcfg.h>
+#endif
+
 #include "system.h"
 #include "error.h"
 #include "quote.h"
@@ -306,6 +310,20 @@ main (int argc, char **argv)
         if (0 <= sysinfo (SI_ARCHITECTURE, processor, sizeof processor))
           element = processor;
       }
+#endif
+#ifdef _AIX
+      switch (_system_configuration.architecture)
+        {
+          case POWER_RS:
+            element = "power";
+            break;
+          case POWER_PC:
+            element = "powerpc";
+            break;
+          case IA64:
+            element = "ia64";
+            break;
+        }
 #endif
 #ifdef UNAME_PROCESSOR
       if (element == unknown)
